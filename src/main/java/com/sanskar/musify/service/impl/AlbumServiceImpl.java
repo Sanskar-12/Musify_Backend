@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class AlbumServiceImpl implements AlbumService {
@@ -26,6 +27,11 @@ public class AlbumServiceImpl implements AlbumService {
         Album newAlbum = convertToEntity(req, imgUrl);
 
         return albumRepository.save(newAlbum);
+    }
+
+    @Override
+    public List<Album> getAllAlbums() throws IOException {
+        return albumRepository.findAll();
     }
 
     public Album convertToEntity(AlbumRequest request, String imgUrl) {

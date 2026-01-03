@@ -1,17 +1,18 @@
 package com.sanskar.musify.controller;
 
 import com.sanskar.musify.document.Album;
+import com.sanskar.musify.io.AlbumListResponse;
 import com.sanskar.musify.io.AlbumRequest;
 import com.sanskar.musify.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class AlbumController {
@@ -31,5 +32,15 @@ public class AlbumController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Exception occured while parsing the json: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/api/get/all/albums")
+    public AlbumListResponse getAllAlbums() throws IOException {
+        List<Album> albums = albumService.getAllAlbums();
+        AlbumListResponse resp = new AlbumListResponse();
+        resp.setSuccess(true);
+        resp.setAlbums(albums);
+
+        return resp;
     }
 }
