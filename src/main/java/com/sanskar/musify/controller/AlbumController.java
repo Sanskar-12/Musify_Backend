@@ -4,7 +4,9 @@ import com.sanskar.musify.document.Album;
 import com.sanskar.musify.io.AlbumListResponse;
 import com.sanskar.musify.io.AlbumRequest;
 import com.sanskar.musify.service.AlbumService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
@@ -42,5 +44,20 @@ public class AlbumController {
         resp.setAlbums(albums);
 
         return resp;
+    }
+
+    @DeleteMapping("/api/delete/album/{id}")
+    public ResponseEntity removeAlbum(@PathVariable String id) {
+        try {
+            Boolean removed = albumService.removeAlbum(id);
+            if (removed) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

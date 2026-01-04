@@ -34,6 +34,16 @@ public class AlbumServiceImpl implements AlbumService {
         return albumRepository.findAll();
     }
 
+    @Override
+    public Boolean removeAlbum(String id) throws IOException {
+        Album existingAlbum = albumRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Album not found"));
+
+        albumRepository.delete(existingAlbum);
+
+        return true;
+    }
+
     public Album convertToEntity(AlbumRequest request, String imgUrl) {
         return Album.builder()
                 .name(request.getName())
