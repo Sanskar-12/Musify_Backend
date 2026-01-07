@@ -8,7 +8,9 @@ import java.io.IOException;
 
 public interface SongService {
 
-    public Song addSong(SongRequest request) throws IOException;
+    Song addSong(SongRequest request) throws IOException;
 
-    public SongListResponse getAllSongs() throws IOException;
+    SongListResponse getAllSongs() throws IOException;
+
+    Boolean removeSong(String id) throws IOException;
 }

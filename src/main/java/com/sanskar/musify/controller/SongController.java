@@ -8,10 +8,7 @@ import com.sanskar.musify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
@@ -45,6 +42,22 @@ public class SongController {
             return ResponseEntity.ok(songService.getAllSongs());
         } catch (Exception e) {
             return ResponseEntity.ok(new SongListResponse(false, null));
+        }
+    }
+
+    @DeleteMapping("/api/delete/song/{id}")
+    public ResponseEntity removeSong(@PathVariable String id) {
+        try {
+            Boolean removed = songService.removeSong(id);
+
+            if (removed) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

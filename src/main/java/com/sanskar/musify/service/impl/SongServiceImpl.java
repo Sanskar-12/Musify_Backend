@@ -44,6 +44,15 @@ public class SongServiceImpl implements SongService {
         return new SongListResponse(true, songRepository.findAll());
     }
 
+    @Override
+    public Boolean removeSong(String id) throws IOException {
+        Song song = songRepository.findById(id).orElseThrow(() -> new RuntimeException("Song not found"));
+
+        songRepository.delete(song);
+
+        return true;
+    }
+
     private String formatDuration(Double durationSeconds) {
         if (durationSeconds == null || durationSeconds < 0) return "00:00";
 
