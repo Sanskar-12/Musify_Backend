@@ -2,11 +2,13 @@ package com.sanskar.musify.controller;
 
 import com.sanskar.musify.document.Song;
 import com.sanskar.musify.io.AlbumRequest;
+import com.sanskar.musify.io.SongListResponse;
 import com.sanskar.musify.io.SongRequest;
 import com.sanskar.musify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +36,15 @@ public class SongController {
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/get/all/songs")
+    public ResponseEntity getAllSongs() {
+        try {
+            return ResponseEntity.ok(songService.getAllSongs());
+        } catch (Exception e) {
+            return ResponseEntity.ok(new SongListResponse(false, null));
         }
     }
 

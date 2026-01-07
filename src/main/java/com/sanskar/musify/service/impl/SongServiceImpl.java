@@ -3,6 +3,7 @@ package com.sanskar.musify.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.sanskar.musify.document.Song;
+import com.sanskar.musify.io.SongListResponse;
 import com.sanskar.musify.io.SongRequest;
 import com.sanskar.musify.repository.SongRepository;
 import com.sanskar.musify.service.CloudinaryService;
@@ -36,6 +37,11 @@ public class SongServiceImpl implements SongService {
         Song song = convertToEntity(request, imgUrl, uploadResult.get("secure_url").toString(), duration);
 
         return songRepository.save(song);
+    }
+
+    @Override
+    public SongListResponse getAllSongs() throws IOException {
+        return new SongListResponse(true, songRepository.findAll());
     }
 
     private String formatDuration(Double durationSeconds) {
