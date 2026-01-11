@@ -5,5 +5,6 @@ import com.sanskar.musify.io.UserResponse;
 
 public interface UserService {
 
+
     public UserResponse registerUser(RegisterRequest request);
 }
