@@ -1,5 +1,10 @@
 package com.sanskar.musify.config;
 
+import com.sanskar.musify.service.impl.AppUserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CorsFilter;
@@ -17,6 +22,9 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private AppUserDetailsServiceImpl appUserDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
@@ -52,4 +60,15 @@ public class SecurityConfig {
 
         return source;
     }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(appUserDetailsService);
+
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+
+        return new ProviderManager(authenticationProvider);
+
+    }
+
 }
