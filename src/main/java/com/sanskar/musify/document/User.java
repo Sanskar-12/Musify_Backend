@@ -20,7 +20,7 @@ public class User {
     @Indexed(unique = true)
     private String email;
     private String password;
-    public Role role;
+    public Role role = Role.USER;
 
     public enum Role {
         USER, ADMIN

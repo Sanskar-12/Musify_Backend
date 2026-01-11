@@ -13,7 +13,6 @@ public class UserResponse {
 
     private String id;
     private String email;
-    private String password;
     public Role role;
 
     public enum Role {

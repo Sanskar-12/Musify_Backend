@@ -6,11 +6,15 @@ import com.sanskar.musify.io.UserResponse;
 import com.sanskar.musify.repository.UserRepository;
 import com.sanskar.musify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -28,6 +32,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(newUser);
 
         return UserResponse.builder()
+                .id(newUser.getId())
                 .email(newUser.getEmail())
                 .role(UserResponse.Role.USER)
                 .build();
@@ -36,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public User convertToEntity(RegisterRequest request) {
         return User.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(User.Role.USER)
                 .build();
     }

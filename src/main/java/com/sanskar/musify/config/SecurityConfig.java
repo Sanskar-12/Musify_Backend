@@ -1,5 +1,7 @@
 package com.sanskar.musify.config;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +33,11 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         return new CorsFilter(corsConfigurationSource());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     private UrlBasedCorsConfigurationSource corsConfigurationSource() {
